@@ -8,6 +8,8 @@ class KeplerClassifier(BaseExoplanetClassifier):
         super().__init__("Kepler")
         self.data_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'cleaned_kepler_train.csv')
         self.target_column = 'koi_disposition'
+        # Kepler already uses koi_* naming; no mapping needed
+        self.column_mapping = {}
     
     def load_and_train(self):
         """Load data and train the model"""

@@ -8,6 +8,15 @@ class K2Classifier(BaseExoplanetClassifier):
         super().__init__("K2")
         self.data_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'k2pandc_2025.10.04_00.32.39.csv')
         self.target_column = 'disposition'
+        # Map K2 column names to standardized koi_* features where possible
+        self.column_mapping = {
+            'snr': 'koi_model_snr',
+            'depth': 'koi_depth',
+            'prad': 'koi_prad',
+            'teq': 'koi_teq',
+            'duration': 'koi_duration',
+            'period': 'koi_period',
+        }
     
     def load_and_train(self):
         """Load data and train the model"""

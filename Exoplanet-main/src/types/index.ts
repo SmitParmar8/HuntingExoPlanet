@@ -1,15 +1,10 @@
 export interface PredictionInput {
-  nasaConfidence: number;
   signalToNoise: number;
   transitDepth: number;
   orbitalPeriod: number;
   transitDuration: number;
   planetRadius: number;
   planetTemperature: number;
-  flagNotTransit: boolean;
-  flagStellarEclipse: boolean;
-  flagCentroidOffset: boolean;
-  flagEphemerisMatch: boolean;
 }
 
 export interface PredictionResult {

@@ -30,18 +30,18 @@ export const models: Record<string, ModelInfo> = {
 export const modelSpecifications: Record<string, ModelSpecification> = {
   K2: {
     dataset: {
-      size: '37,000 candidates',
-      source: 'NASA K2 Mission Archive',
+      size: '4,004 rows',
+      source: 'k2pandc_2025.10.04_00.32.39.csv',
       features: [
-        'Light curve characteristics',
-        'Transit depth and duration',
-        'Signal-to-noise ratio',
-        'Stellar parameters',
-        'Centroid motion',
-        'Secondary eclipse detection'
+        'koi_model_snr (Signal-to-noise ratio)',
+        'koi_depth (Transit depth)',
+        'koi_prad (Planet radius, Earth radii)',
+        'koi_teq (Equilibrium temperature, K)',
+        'koi_duration (Transit duration, hours)',
+        'koi_period (Orbital period, days)'
       ]
     },
-    architecture: 'Random Forest Ensemble (500 trees)',
+    architecture: 'Random Forest (100 trees) with standardization',
     metrics: {
       accuracy: 94.2,
       precision: 0.92,
@@ -55,18 +55,18 @@ export const modelSpecifications: Record<string, ModelSpecification> = {
   },
   TESS: {
     dataset: {
-      size: '52,000 candidates',
-      source: 'TESS Mission Data Release',
+      size: '7,704 rows',
+      source: 'TOI_2025.10.04_00.32.31.csv',
       features: [
-        'Full-frame image photometry',
-        'Transit timing variations',
-        'Stellar activity indicators',
-        'Multi-sector observations',
-        'Pixel-level centroid analysis',
-        'Background flux measurements'
+        'koi_model_snr (Signal-to-noise ratio)',
+        'koi_depth (Transit depth)',
+        'koi_prad (Planet radius, Earth radii)',
+        'koi_teq (Equilibrium temperature, K)',
+        'koi_duration (Transit duration, hours)',
+        'koi_period (Orbital period, days)'
       ]
     },
-    architecture: 'XGBoost Gradient Boosting',
+    architecture: 'Random Forest (100 trees) with standardization',
     metrics: {
       accuracy: 96.8,
       precision: 0.95,
@@ -80,18 +80,18 @@ export const modelSpecifications: Record<string, ModelSpecification> = {
   },
   Kepler: {
     dataset: {
-      size: '190,000 candidates',
-      source: 'Kepler Mission DR25',
+      size: '9,565 rows',
+      source: 'cleaned_kepler_train.csv',
       features: [
-        'Long-cadence light curves',
-        'Data validation metrics',
-        'Planet-star radius ratio',
-        'Impact parameter',
-        'Limb darkening coefficients',
-        'Bootstrap false alarm probability'
+        'koi_model_snr (Signal-to-noise ratio)',
+        'koi_depth (Transit depth)',
+        'koi_prad (Planet radius, Earth radii)',
+        'koi_teq (Equilibrium temperature, K)',
+        'koi_duration (Transit duration, hours)',
+        'koi_period (Orbital period, days)'
       ]
     },
-    architecture: 'Neural Network (3 hidden layers)',
+    architecture: 'Random Forest (100 trees) with standardization',
     metrics: {
       accuracy: 93.5,
       precision: 0.91,

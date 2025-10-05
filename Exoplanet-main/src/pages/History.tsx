@@ -29,14 +29,13 @@ export function History() {
 
   const handleExport = () => {
     const csv = [
-      ['Timestamp', 'Model', 'Result', 'Confidence', 'NASA Confidence', 'Signal/Noise', 'Transit Depth', 'Orbital Period'].join(','),
+      ['Timestamp', 'Model', 'Result', 'Confidence', 'Signal/Noise', 'Transit Depth', 'Orbital Period'].join(','),
       ...filteredPredictions.map((p) =>
         [
           new Date(p.timestamp).toLocaleString(),
           p.modelName,
           p.result.status,
           p.result.confidence,
-          p.input.nasaConfidence,
           p.input.signalToNoise,
           p.input.transitDepth,
           p.input.orbitalPeriod
@@ -175,27 +174,21 @@ export function History() {
 
                           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                             <div>
-                              <p className="text-xs text-gray-500">NASA Confidence</p>
-                              <p className="text-sm font-semibold text-white">
-                                {prediction.input.nasaConfidence.toFixed(2)}
-                              </p>
-                            </div>
-                            <div>
                               <p className="text-xs text-gray-500">Signal/Noise</p>
                               <p className="text-sm font-semibold text-white">
-                                {prediction.input.signalToNoise.toFixed(1)}
+                                {prediction.input.signalToNoise?.toFixed?.(1) ?? '—'}
                               </p>
                             </div>
                             <div>
                               <p className="text-xs text-gray-500">Orbital Period</p>
                               <p className="text-sm font-semibold text-white">
-                                {prediction.input.orbitalPeriod.toFixed(1)} days
+                                {prediction.input.orbitalPeriod?.toFixed?.(1) ?? '—'} days
                               </p>
                             </div>
                             <div>
                               <p className="text-xs text-gray-500">Planet Radius</p>
                               <p className="text-sm font-semibold text-white">
-                                {prediction.input.planetRadius.toFixed(1)} R⊕
+                                {prediction.input.planetRadius?.toFixed?.(1) ?? '—'} R⊕
                               </p>
                             </div>
                           </div>

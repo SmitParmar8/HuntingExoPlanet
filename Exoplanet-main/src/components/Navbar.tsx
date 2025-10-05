@@ -16,7 +16,7 @@ export function Navbar() {
   const location = useLocation();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-cyan-500/20">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-950/90 backdrop-blur-md border-b border-cyan-600/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-3 group">
@@ -34,7 +34,7 @@ export function Navbar() {
               <Rocket className="w-8 h-8 text-cyan-400" />
             </motion.div>
             <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              AstroKit
+              Exoscope
             </span>
           </Link>
 
@@ -72,7 +72,7 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-gray-900/95 backdrop-blur-md border-t border-cyan-500/20"
+            className="md:hidden bg-gray-950/95 backdrop-blur-md border-t border-cyan-600/30"
           >
             <div className="px-4 py-4 space-y-2">
               {navItems.map((item) => (
@@ -82,7 +82,7 @@ export function Navbar() {
                   onClick={() => setIsOpen(false)}
                   className={`block px-4 py-3 rounded-lg transition-all ${
                     location.pathname === item.path
-                      ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+                      ? 'bg-cyan-600/20 text-cyan-400 border border-cyan-500/40'
                       : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                   }`}
                 >

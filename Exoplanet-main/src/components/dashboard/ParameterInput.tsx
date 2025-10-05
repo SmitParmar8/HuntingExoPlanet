@@ -28,17 +28,12 @@ function Tooltip({ text }: TooltipProps) {
 
 export function ParameterInput({ onPredict, isProcessing }: ParameterInputProps) {
   const [params, setParams] = useState<PredictionInput>({
-    nasaConfidence: 0.75,
     signalToNoise: 45,
     transitDepth: 1200,
     orbitalPeriod: 15,
     transitDuration: 3.5,
     planetRadius: 2.5,
-    planetTemperature: 850,
-    flagNotTransit: false,
-    flagStellarEclipse: false,
-    flagCentroidOffset: false,
-    flagEphemerisMatch: true
+    planetTemperature: 850
   });
 
   const updateParam = (key: keyof PredictionInput, value: number | boolean) => {
@@ -61,35 +56,12 @@ export function ParameterInput({ onPredict, isProcessing }: ParameterInputProps)
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <div className="flex items-center mb-2">
-              <label className="text-sm font-medium text-gray-300">NASA Confidence Score</label>
-              <Tooltip text="NASA's confidence level in the signal detection (0 = low, 1 = high)" />
-            </div>
-            <Slider
-              min={0}
-              max={1}
-              step={0.01}
-              value={params.nasaConfidence}
-              onChange={(e) => updateParam('nasaConfidence', parseFloat(e.target.value))}
-            />
-            <Input
-              type="number"
-              min={0}
-              max={1}
-              step={0.01}
-              value={params.nasaConfidence}
-              onChange={(e) => updateParam('nasaConfidence', parseFloat(e.target.value))}
-              className="mt-2"
-            />
-          </div>
-
-          <div>
-            <div className="flex items-center mb-2">
               <label className="text-sm font-medium text-gray-300">Signal-to-Noise Ratio</label>
               <Tooltip text="Ratio of signal strength to background noise. Higher values indicate clearer signals." />
             </div>
             <Slider
               min={0}
-              max={100}
+              max={10000}
               step={0.1}
               value={params.signalToNoise}
               onChange={(e) => updateParam('signalToNoise', parseFloat(e.target.value))}
@@ -97,8 +69,8 @@ export function ParameterInput({ onPredict, isProcessing }: ParameterInputProps)
             <Input
               type="number"
               min={0}
-              max={100}
-              step={0.1}
+              max={10000}
+              step="any"
               value={params.signalToNoise}
               onChange={(e) => updateParam('signalToNoise', parseFloat(e.target.value))}
               className="mt-2"
@@ -112,7 +84,7 @@ export function ParameterInput({ onPredict, isProcessing }: ParameterInputProps)
             </div>
             <Slider
               min={0}
-              max={5000}
+              max={1600000}
               step={10}
               value={params.transitDepth}
               onChange={(e) => updateParam('transitDepth', parseFloat(e.target.value))}
@@ -121,8 +93,8 @@ export function ParameterInput({ onPredict, isProcessing }: ParameterInputProps)
             <Input
               type="number"
               min={0}
-              max={5000}
-              step={10}
+              max={1600000}
+              step="any"
               value={params.transitDepth}
               onChange={(e) => updateParam('transitDepth', parseFloat(e.target.value))}
               suffix="ppm"
@@ -137,7 +109,7 @@ export function ParameterInput({ onPredict, isProcessing }: ParameterInputProps)
             </div>
             <Slider
               min={0.5}
-              max={500}
+              max={130000}
               step={0.5}
               value={params.orbitalPeriod}
               onChange={(e) => updateParam('orbitalPeriod', parseFloat(e.target.value))}
@@ -146,8 +118,8 @@ export function ParameterInput({ onPredict, isProcessing }: ParameterInputProps)
             <Input
               type="number"
               min={0.5}
-              max={500}
-              step={0.5}
+              max={130000}
+              step="any"
               value={params.orbitalPeriod}
               onChange={(e) => updateParam('orbitalPeriod', parseFloat(e.target.value))}
               suffix="days"
@@ -162,7 +134,7 @@ export function ParameterInput({ onPredict, isProcessing }: ParameterInputProps)
             </div>
             <Slider
               min={0.1}
-              max={12}
+              max={150}
               step={0.1}
               value={params.transitDuration}
               onChange={(e) => updateParam('transitDuration', parseFloat(e.target.value))}
@@ -171,8 +143,8 @@ export function ParameterInput({ onPredict, isProcessing }: ParameterInputProps)
             <Input
               type="number"
               min={0.1}
-              max={12}
-              step={0.1}
+              max={150}
+              step="any"
               value={params.transitDuration}
               onChange={(e) => updateParam('transitDuration', parseFloat(e.target.value))}
               suffix="hours"
@@ -187,7 +159,7 @@ export function ParameterInput({ onPredict, isProcessing }: ParameterInputProps)
             </div>
             <Slider
               min={0.1}
-              max={25}
+              max={210000}
               step={0.1}
               value={params.planetRadius}
               onChange={(e) => updateParam('planetRadius', parseFloat(e.target.value))}
@@ -196,8 +168,8 @@ export function ParameterInput({ onPredict, isProcessing }: ParameterInputProps)
             <Input
               type="number"
               min={0.1}
-              max={25}
-              step={0.1}
+              max={210000}
+              step="any"
               value={params.planetRadius}
               onChange={(e) => updateParam('planetRadius', parseFloat(e.target.value))}
               suffix="R⊕"
@@ -212,7 +184,7 @@ export function ParameterInput({ onPredict, isProcessing }: ParameterInputProps)
             </div>
             <Slider
               min={100}
-              max={3000}
+              max={15000}
               step={10}
               value={params.planetTemperature}
               onChange={(e) => updateParam('planetTemperature', parseFloat(e.target.value))}
@@ -221,8 +193,8 @@ export function ParameterInput({ onPredict, isProcessing }: ParameterInputProps)
             <Input
               type="number"
               min={100}
-              max={3000}
-              step={10}
+              max={15000}
+              step="any"
               value={params.planetTemperature}
               onChange={(e) => updateParam('planetTemperature', parseFloat(e.target.value))}
               suffix="K"
@@ -231,31 +203,7 @@ export function ParameterInput({ onPredict, isProcessing }: ParameterInputProps)
           </div>
         </div>
 
-        <div className="border-t border-gray-700 pt-6">
-          <h3 className="text-lg font-semibold text-white mb-4">Detection Flags</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              { key: 'flagNotTransit', label: 'Not Transit-Like', tooltip: 'Signal does not match expected transit characteristics' },
-              { key: 'flagStellarEclipse', label: 'Stellar Eclipse', tooltip: 'Signal may be caused by an eclipsing binary star system' },
-              { key: 'flagCentroidOffset', label: 'Centroid Offset', tooltip: 'Light source position shifts during transit (possible background eclipsing binary)' },
-              { key: 'flagEphemerisMatch', label: 'Ephemeris Match', tooltip: 'Transit timing matches predicted ephemeris (positive indicator)' }
-            ].map(({ key, label, tooltip }) => (
-              <label
-                key={key}
-                className="flex items-center p-3 bg-gray-900/30 rounded-lg cursor-pointer hover:bg-gray-900/50 transition-colors"
-              >
-                <input
-                  type="checkbox"
-                  checked={params[key as keyof PredictionInput] as boolean}
-                  onChange={(e) => updateParam(key as keyof PredictionInput, e.target.checked)}
-                  className="w-5 h-5 rounded border-gray-600 text-cyan-500 focus:ring-cyan-500 focus:ring-offset-gray-900"
-                />
-                <span className="ml-3 text-gray-300 flex-1">{label}</span>
-                <Tooltip text={tooltip} />
-              </label>
-            ))}
-          </div>
-        </div>
+        {/* Detection flags removed per requirements */}
 
         <Button type="submit" size="lg" className="w-full" disabled={isProcessing}>
           {isProcessing ? (

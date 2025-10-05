@@ -18,6 +18,17 @@ class BaseExoplanetClassifier:
         self.target_encoder = None
         self.feature_names = None
         self.is_trained = False
+        # Standardized feature set we will train on across datasets
+        self.desired_features = [
+            'koi_model_snr',
+            'koi_depth',
+            'koi_prad',
+            'koi_teq',
+            'koi_duration',
+            'koi_period',
+        ]
+        # Subclasses can set a mapping from dataset-specific columns to standardized names
+        self.column_mapping = {}
         
     def load_data(self, file_path):
         """Load dataset from CSV file"""
@@ -27,14 +38,47 @@ class BaseExoplanetClassifier:
         df = pd.read_csv(file_path, comment='#')
         return df
     
+    def _standardize_target(self, y_series):
+        """Map target labels from various datasets to standardized set."""
+        mapping = {
+            # Kepler/K2 common strings
+            'CANDIDATE': 'candidate',
+            'CONFIRMED': 'confirmed',
+            'FALSE POSITIVE': 'false_positive',
+            # TESS/TOI shorthand
+            'PC': 'candidate',  # Planet Candidate
+            'CP': 'confirmed',
+            'FP': 'false_positive',
+            # Lowercase fallbacks
+            'candidate': 'candidate',
+            'confirmed': 'confirmed',
+            'false positive': 'false_positive',
+            'false_positive': 'false_positive',
+            'unknown': 'unknown',
+        }
+        def map_label(v):
+            if pd.isna(v):
+                return 'unknown'
+            key = str(v).strip()
+            return mapping.get(key, mapping.get(key.upper(), 'unknown'))
+        return y_series.apply(map_label)
+
     def preprocess_data(self, df, target_column):
         """Preprocess the dataset"""
         # Drop rows where target is missing
         df = df.dropna(subset=[target_column])
         
         # Separate features and target
-        X = df.drop(columns=[target_column])
+        X = df.drop(columns=[target_column]).copy()
         y = df[target_column]
+        # Normalize target labels
+        y = self._standardize_target(y)
+        
+        # Map dataset-specific columns to standardized koi_* names
+        if self.column_mapping:
+            present_mappings = {src: dst for src, dst in self.column_mapping.items() if src in X.columns}
+            if present_mappings:
+                X = X.rename(columns=present_mappings)
         
         # Remove identifier columns
         id_cols = [col for col in X.columns if col.lower() in 
@@ -42,6 +86,12 @@ class BaseExoplanetClassifier:
         if id_cols:
             X = X.drop(columns=id_cols)
         
+        # Keep only desired features if available; create missing ones as NaN
+        for feat in self.desired_features:
+            if feat not in X.columns:
+                X[feat] = np.nan
+        X = X[self.desired_features]
+
         # Handle missing values
         numerical_cols = X.select_dtypes(include=[np.number]).columns
         categorical_cols = X.select_dtypes(include=['object']).columns

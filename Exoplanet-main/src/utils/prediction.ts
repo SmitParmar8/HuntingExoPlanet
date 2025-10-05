@@ -36,18 +36,14 @@ function generateMockPrediction(
   model: ModelType
 ): PredictionResult {
   let score = 0;
-  let weights = {
-    nasaConfidence: 0.25,
+  const weights = {
     signalToNoise: 0.20,
     transitDepth: 0.15,
     orbitalPeriod: 0.10,
     transitDuration: 0.10,
     planetRadius: 0.10,
-    planetTemperature: 0.05,
-    flags: 0.05
+    planetTemperature: 0.05
   };
-
-  score += input.nasaConfidence * weights.nasaConfidence;
 
   const normalizedSNR = Math.min(input.signalToNoise / 100, 1);
   score += normalizedSNR * weights.signalToNoise;
@@ -67,13 +63,7 @@ function generateMockPrediction(
   const tempScore = input.planetTemperature > 200 && input.planetTemperature < 2000 ? 1 : 0.6;
   score += tempScore * weights.planetTemperature;
 
-  const flagPenalty =
-    (input.flagNotTransit ? 0.3 : 0) +
-    (input.flagStellarEclipse ? 0.25 : 0) +
-    (input.flagCentroidOffset ? 0.2 : 0) +
-    (input.flagEphemerisMatch ? -0.1 : 0);
-
-  score -= flagPenalty * weights.flags;
+  // Detection flags removed per requirements
 
   const modelBonus = {
     K2: 0.02,

@@ -1,0 +1,7 @@
+koi_model_snr,koi_depth,koi_prad,koi_teq,koi_duration,koi_period,status
+11.3,1400,1.6,850,3.0,8.4,candidate
+4.1,200,0.8,600,1.6,18.0,false_positive
+19.7,3200,3.2,1300,4.6,1.8,confirmed
+6.5,700,1.2,780,2.6,11.5,candidate
+5.0,300,0.9,680,1.9,15.2,false_positive
+

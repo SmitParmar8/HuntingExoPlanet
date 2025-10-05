@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8001/api';
+const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
 export interface PredictionInput {
   nasaConfidence?: number;
@@ -90,8 +90,14 @@ class ApiService {
     return this.request<PredictionResult>('/predict/', {
       method: 'POST',
       body: JSON.stringify({
-        ...input,
         model,
+        signal_to_noise: input.signalToNoise,
+        transit_depth: input.transitDepth,
+        orbital_period: input.orbitalPeriod,
+        transit_duration: input.transitDuration,
+        planet_radius: input.planetRadius,
+        planet_temperature: input.planetTemperature,
+        // Detection flags and extended stellar/orbital params removed per requirements
       }),
     });
   }

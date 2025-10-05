@@ -8,6 +8,15 @@ class TOIClassifier(BaseExoplanetClassifier):
         super().__init__("TOI")
         self.data_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'TOI_2025.10.04_00.32.31.csv')
         self.target_column = 'tfopwg_disp'
+        # Map TOI columns to standardized koi_* features (best-effort)
+        self.column_mapping = {
+            'pl_trandep': 'koi_depth',
+            'pl_trandur': 'koi_duration',
+            'pl_orbper': 'koi_period',
+            'pl_rade': 'koi_prad',
+            'st_teff': 'koi_teq',
+            # SNR may not be present; leave koi_model_snr as NaN if missing
+        }
     
     def load_and_train(self):
         """Load data and train the model"""
